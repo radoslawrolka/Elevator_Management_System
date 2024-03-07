@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="EMS.GUI.SimulationPresenter" alignment="center" hgap="10" vgap="10" minWidth="750" minHeight="650">
+    <Button fx:id="btn" text="Add" onAction="#btnAdd" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <VBox fx:id="vbox" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <Label fx:id="l" text="rev"/>
+    </VBox>
+</GridPane>

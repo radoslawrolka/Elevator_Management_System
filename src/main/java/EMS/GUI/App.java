@@ -10,7 +10,7 @@ import java.io.IOException;
 public class App extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("fxml/app.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("fxml/menu.fxml"));
         VBox viewRoot = loader.load();
         configureStage(primaryStage, viewRoot);
         primaryStage.show();
@@ -19,8 +19,8 @@ public class App extends Application {
     private void configureStage(Stage primaryStage, VBox viewRoot) {
         var scene = new Scene(viewRoot);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Elevator Management System");
-        primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
-        primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
+        primaryStage.setTitle("Elevator Management System - Menu");
+        primaryStage.minHeightProperty();
+        primaryStage.minWidthProperty();
     }
 }
