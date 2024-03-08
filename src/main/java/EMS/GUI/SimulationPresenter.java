@@ -1,14 +1,12 @@
 package EMS.GUI;
 
-import EMS.System.ChangeObserver;
-import EMS.System.Elevator;
-import EMS.System.Engine;
-import EMS.System.MoveDirection;
+import EMS.System.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -22,11 +20,14 @@ public class SimulationPresenter implements ChangeObserver {
     private int floors;
     private Engine engine;
     private final GuiElementLoader elementLoader = new GuiElementLoader();
+    private Thread engineThread;
 
     @FXML
     private GridPane buttonGrid;
     @FXML
     private GridPane elevatorGrid;
+    @FXML
+    private GridPane innerGrid;
     @FXML
     private void initialize() {}
 
@@ -35,8 +36,10 @@ public class SimulationPresenter implements ChangeObserver {
         this.engine = new Engine(config.elevators());
         setupButtons(floors);
         setupElevators(config.elevators());
+        setupInner(config.elevators());
         engine.addObserver(this);
-        new Thread(engine).start();
+        engineThread = new Thread(engine);
+        engineThread.start();
     }
 
     private void setupButtons(int floors) {
@@ -79,6 +82,20 @@ public class SimulationPresenter implements ChangeObserver {
         }
     }
 
+    private void setupInner(int elevators) {
+        for (int i = 0; i < elevators; i++) {
+            innerGrid.getRowConstraints().add(new RowConstraints(height));
+            Spinner<Integer> spinner = new Spinner<>(1, floors, 1);
+            Label label = new Label("Elevator " + (i+1));
+            Button button = new Button("Go");
+            int finalI = i;
+            button.setOnAction(event -> engine.internalCall(finalI, spinner.getValue()));
+            innerGrid.add(label, 0, i);
+            innerGrid.add(spinner, 1, i);
+            innerGrid.add(button, 2, i);
+        }
+    }
+
     private void clearGrid() {
         elevatorGrid.getChildren().retainAll(elevatorGrid.getChildren().get(0));
         elevatorGrid.getColumnConstraints().clear();
@@ -98,7 +115,12 @@ public class SimulationPresenter implements ChangeObserver {
         });
     }
 
+    public void stopSimulation() {
+        engine.breakSimulation();
+        engineThread.interrupt();
+    }
+
     private void callElevator(int floor, MoveDirection direction) {
-        //engine.callElevator(new Call(floor, direction));
+        engine.addCall(new Call(floor, direction));
     }
 }

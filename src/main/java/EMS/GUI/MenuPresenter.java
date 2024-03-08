@@ -26,9 +26,17 @@ public class MenuPresenter {
             simulationPresenter.initData(readInput());
             Stage simulationStage = configureStage(root);
             simulationStage.show();
+            simulationStage.setOnCloseRequest(event -> onClose(simulationPresenter, simulationStage));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void onClose(SimulationPresenter simulationController, Stage simulationStage) {
+        if (simulationController != null) {
+            simulationController.stopSimulation();
+        }
+        simulationStage.close();
     }
 
     private Stage configureStage(Parent root) {

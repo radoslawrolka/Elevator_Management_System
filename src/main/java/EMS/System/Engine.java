@@ -9,6 +9,7 @@ public class Engine implements Runnable {
     private final List<Call> calls = new ArrayList<>();
     private final List<ChangeObserver> observers = new ArrayList<>();
     //private final Comparator<Elevator> =
+    private boolean running = true;
 
     public Engine(int elevators) {
         for (int i = 0; i < elevators; i++) {
@@ -34,14 +35,14 @@ public class Engine implements Runnable {
 
     public void run() {
         while (true) {
+
             updateObservers();
             update();
             moveElevators();
             try {
+                if (!running) {break;}
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (InterruptedException ignored) {}
         }
     }
 
@@ -49,6 +50,10 @@ public class Engine implements Runnable {
         for (ChangeObserver observer : observers) {
             observer.refreshView(elevators);
         }
+    }
+
+    public void breakSimulation(){
+        running = false;
     }
 
     private void moveElevators() {
@@ -59,7 +64,8 @@ public class Engine implements Runnable {
 
     private void update() {
         for (Call call : calls) {
-
+            elevators.get(0).addStop(call.floor());
         }
+        calls.clear();
     }
 }
