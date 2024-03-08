@@ -14,7 +14,7 @@ public class MenuPresenter {
     private Spinner<Integer> Elevators;
 
     private Config readInput() {
-        return new Config(Floors.getValue(), Elevators.getValue());
+        return new Config(Elevators.getValue(), Floors.getValue());
     }
 
     @FXML
