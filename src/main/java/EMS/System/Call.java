@@ -1,4 +1,12 @@
 package EMS.System;
 
-public record Call(int floor, MoveDirection direction) {
+import java.util.Comparator;
+
+public record Call(int floor, MoveDirection direction) implements Comparable<Call> {
+    @Override
+    public int compareTo(Call o) {
+        return Comparator.comparing(Call::direction)
+                .thenComparing(Call::floor)
+                .compare(this, o);
+    }
 }
