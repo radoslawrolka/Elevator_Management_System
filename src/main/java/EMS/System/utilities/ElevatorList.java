@@ -1,4 +1,6 @@
-package EMS.System;
+package EMS.System.utilities;
+
+import EMS.System.Elevator.Elevator;
 
 import static java.lang.Math.abs;
 import java.util.ArrayList;

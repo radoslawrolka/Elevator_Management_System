@@ -1,4 +1,4 @@
-package EMS.System;
+package EMS.System.utilities;
 
 public enum MoveDirection {
     UP,

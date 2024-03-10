@@ -1,4 +1,6 @@
-package EMS.System;
+package EMS.System.Elevator;
+
+import EMS.System.utilities.MoveDirection;
 
 import java.util.TreeSet;
 

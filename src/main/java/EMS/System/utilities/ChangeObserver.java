@@ -1,4 +1,6 @@
-package EMS.System;
+package EMS.System.utilities;
+
+import EMS.System.Elevator.Elevator;
 
 import java.util.List;
 
