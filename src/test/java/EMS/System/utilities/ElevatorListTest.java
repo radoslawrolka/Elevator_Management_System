@@ -65,10 +65,10 @@ public class ElevatorListTest {
         Call call3 = new Call(2, MoveDirection.UP);
         Call call4 = new Call(8, MoveDirection.DOWN);
 
-        assertEquals(elevator1, elevatorList.getElevator(call1).get());
-        assertEquals(elevator1, elevatorList.getElevator(call2).get());
-        assertEquals(elevator2, elevatorList.getElevator(call3).get());
-        assertEquals(elevator3, elevatorList.getElevator(call4).get());
+        assertEquals(elevator1, elevatorList.getElevator(call1).orElse(null));
+        assertEquals(elevator1, elevatorList.getElevator(call2).orElse(null));
+        assertEquals(elevator2, elevatorList.getElevator(call3).orElse(null));
+        assertEquals(elevator3, elevatorList.getElevator(call4).orElse(null));
     }
 
     private Elevator createElevator(int destination) {

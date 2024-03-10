@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SchedulerTest {
     @Test
-    public void sheduleTest() {
+    public void scheduleTest() {
         Elevator elevator1 = createElevator(3);
         Elevator elevator2 = createElevator(8);
         Elevator elevator3 = createElevator(5);

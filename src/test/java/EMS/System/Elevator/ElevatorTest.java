@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import EMS.System.utilities.MoveDirection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ElevatorTest {
     @Test

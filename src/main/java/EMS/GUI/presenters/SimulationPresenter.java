@@ -34,8 +34,6 @@ public class SimulationPresenter implements ChangeObserver {
     private GridPane elevatorGrid;
     @FXML
     private GridPane innerGrid;
-    @FXML
-    private void initialize() {}
 
     public void initData(Config config) {
         this.floors = config.floors();
