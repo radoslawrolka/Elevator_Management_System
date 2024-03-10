@@ -2,7 +2,11 @@ package EMS.GUI.presenters;
 
 import EMS.GUI.utilities.Config;
 import EMS.GUI.utilities.GuiElementLoader;
-import EMS.System.*;
+import EMS.System.Elevator.Elevator;
+import EMS.System.Engine.Engine;
+import EMS.System.utilities.Call;
+import EMS.System.utilities.ChangeObserver;
+import EMS.System.utilities.MoveDirection;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -42,6 +46,24 @@ public class SimulationPresenter implements ChangeObserver {
         engine.addObserver(this);
         engineThread = new Thread(engine);
         engineThread.start();
+    }
+
+    @Override
+    public void refreshView(List<Elevator> elevators) {
+        Platform.runLater(() -> {
+            clearGrid();
+            setupElevators(elevators.size());
+            for (int i = 0; i < elevators.size(); i++) {
+                Elevator elevator = elevators.get(i);
+                Rectangle rect = elementLoader.getElevatorRectangle(elevator.getDirection());
+                elevatorGrid.add(rect, i+1, floors-elevator.getCurrentFloor());
+            }
+        });
+    }
+
+    public void stopSimulation() {
+        engine.breakSimulation();
+        engineThread.interrupt();
     }
 
     private void setupButtons(int floors) {
@@ -102,24 +124,6 @@ public class SimulationPresenter implements ChangeObserver {
         elevatorGrid.getChildren().retainAll(elevatorGrid.getChildren().get(0));
         elevatorGrid.getColumnConstraints().clear();
         elevatorGrid.getRowConstraints().clear();
-    }
-
-    @Override
-    public void refreshView(List<Elevator> elevators) {
-        Platform.runLater(() -> {
-            clearGrid();
-            setupElevators(elevators.size());
-            for (int i = 0; i < elevators.size(); i++) {
-                Elevator elevator = elevators.get(i);
-                Rectangle rect = elementLoader.getElevatorRectangle(elevator.getDirection());
-                elevatorGrid.add(rect, i+1, floors-elevator.getCurrentFloor());
-            }
-        });
-    }
-
-    public void stopSimulation() {
-        engine.breakSimulation();
-        engineThread.interrupt();
     }
 
     private void callElevator(int floor, MoveDirection direction) {

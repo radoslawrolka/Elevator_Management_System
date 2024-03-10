@@ -1,6 +1,6 @@
 package EMS.GUI.utilities;
 
-import EMS.System.MoveDirection;
+import EMS.System.utilities.MoveDirection;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
