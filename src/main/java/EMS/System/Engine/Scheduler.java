@@ -27,7 +27,7 @@ public class Scheduler {
             Call call = iterator.next();
             Elevator elevator = elevators.getElevator(call).orElse(null);
             if (elevator != null) {
-                elevator.addStop(call.floor());
+                elevator.addStop(call.floor(), call.direction());
                 iterator.remove();
             }
         }
