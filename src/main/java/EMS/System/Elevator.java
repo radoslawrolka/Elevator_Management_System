@@ -1,16 +1,11 @@
 package EMS.System;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class Elevator {
     private Integer currentFloor = 1;
     private MoveDirection direction = MoveDirection.IDLE;
-    private final List<Integer> stops = new LinkedList<>();
-
-    public Elevator() {}
+    private final TreeSet<Integer> stops = new TreeSet<>();
 
     public Integer getCurrentFloor() {
         return currentFloor;
@@ -25,24 +20,17 @@ public class Elevator {
     }
 
     public void move() {
-        System.out.println("move:");
-        for (Integer stop : stops) {
-            System.out.println(stop);
-        }
         switch (direction) {
-            case UP -> {
-                currentFloor++;
-                if (stops.contains(currentFloor)) {
-                    stop();
-                }
-            }
-            case DOWN -> {
-                currentFloor--;
-                if (stops.contains(currentFloor)) {
-                    stop();
-                }
-            }
-            case STOP, IDLE -> start();
+            case UP, DOWN -> go();
+            case STOP -> start();
+            case IDLE -> check();
+        }
+    }
+
+    private void go() {
+        currentFloor += direction.getValue();
+        if (stops.contains(currentFloor)) {
+            stop();
         }
     }
 
@@ -55,17 +43,17 @@ public class Elevator {
         if (stops.isEmpty()) {
             direction = MoveDirection.IDLE;
         } else {
-            stops.remove(currentFloor);
-            if (stops.isEmpty()) {
-                direction = MoveDirection.IDLE;
-                return;
-            }
-            Integer nextFloor = stops.get(0);
-            if (nextFloor > currentFloor) {
-                direction = MoveDirection.UP;
-            } else if (nextFloor < currentFloor) {
-                direction = MoveDirection.DOWN;
-            }
+            direction = stops.first() > currentFloor ? MoveDirection.UP : MoveDirection.DOWN;
         }
+    }
+
+    private void check() {
+        if (!stops.isEmpty()) {
+            direction = stops.first() > currentFloor ? MoveDirection.UP : MoveDirection.DOWN;
+        }
+    }
+
+    public boolean isIdle() {
+        return direction == MoveDirection.IDLE;
     }
 }
