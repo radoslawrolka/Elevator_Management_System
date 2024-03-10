@@ -1,24 +1,19 @@
 package EMS.System;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class Engine implements Runnable {
     private final List<Elevator> elevators = new ArrayList<>();
-    private final List<Call> calls = new ArrayList<>();
     private final List<ChangeObserver> observers = new ArrayList<>();
-    //private final Comparator<Elevator> =
+    private final Scheduler scheduler;
     private boolean running = true;
 
-    public Engine(int elevators) {
-        for (int i = 0; i < elevators; i++) {
-            this.elevators.add(new Elevator());
+    public Engine(int numElevators) {
+        for (int i = 0; i < numElevators; i++) {
+            elevators.add(new Elevator());
         }
-    }
-
-    public List<Elevator> getElevators() {
-        return elevators;
+        scheduler = new Scheduler(elevators);
     }
 
     public void addObserver(ChangeObserver observer) {
@@ -26,7 +21,7 @@ public class Engine implements Runnable {
     }
 
     public void addCall(Call call) {
-        calls.add(call);
+        scheduler.addCall(call);
     }
 
     public void internalCall(Integer elevator, Integer floor) {
@@ -35,9 +30,8 @@ public class Engine implements Runnable {
 
     public void run() {
         while (true) {
-
             updateObservers();
-            update();
+            scheduler.schedule();
             moveElevators();
             try {
                 if (!running) {break;}
@@ -47,9 +41,7 @@ public class Engine implements Runnable {
     }
 
     private void updateObservers() {
-        for (ChangeObserver observer : observers) {
-            observer.refreshView(elevators);
-        }
+        observers.forEach(observer -> observer.refreshView(elevators));
     }
 
     public void breakSimulation(){
@@ -57,15 +49,6 @@ public class Engine implements Runnable {
     }
 
     private void moveElevators() {
-        for (Elevator elevator : elevators) {
-            elevator.move();
-        }
-    }
-
-    private void update() {
-        for (Call call : calls) {
-            elevators.get(0).addStop(call.floor());
-        }
-        calls.clear();
+        elevators.forEach(Elevator::move);
     }
 }
