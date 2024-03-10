@@ -1,5 +1,6 @@
-package EMS.GUI;
+package EMS.GUI.presenters;
 
+import EMS.GUI.utilities.Config;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

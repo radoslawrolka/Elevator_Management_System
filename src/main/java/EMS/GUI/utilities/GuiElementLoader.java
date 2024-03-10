@@ -1,11 +1,11 @@
-package EMS.GUI;
+package EMS.GUI.utilities;
 
 import EMS.System.MoveDirection;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 public class GuiElementLoader {
-    GuiElementLoader() {}
+    public GuiElementLoader () {}
 
     public Rectangle getElevatorRectangle(MoveDirection direction) {
         Color color = Color.GREEN;

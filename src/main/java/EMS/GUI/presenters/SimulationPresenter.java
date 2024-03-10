@@ -1,5 +1,7 @@
-package EMS.GUI;
+package EMS.GUI.presenters;
 
+import EMS.GUI.utilities.Config;
+import EMS.GUI.utilities.GuiElementLoader;
 import EMS.System.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,9 +19,9 @@ import java.util.List;
 public class SimulationPresenter implements ChangeObserver {
     private final int width = 30;
     private final int height = 30;
+    private final GuiElementLoader elementLoader = new GuiElementLoader();
     private int floors;
     private Engine engine;
-    private final GuiElementLoader elementLoader = new GuiElementLoader();
     private Thread engineThread;
 
     @FXML
@@ -43,7 +45,7 @@ public class SimulationPresenter implements ChangeObserver {
     }
 
     private void setupButtons(int floors) {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             buttonGrid.getColumnConstraints().add(new ColumnConstraints(width));
         }
 
@@ -64,7 +66,7 @@ public class SimulationPresenter implements ChangeObserver {
             Button button = new Button("v");
             int finalI = floors-i;
             button.setOnAction(event -> callElevator(finalI, MoveDirection.DOWN));
-            buttonGrid.add(button, 4, i);
+            buttonGrid.add(button, 2, i);
             GridPane.setHalignment(button, HPos.CENTER);
         }
     }
