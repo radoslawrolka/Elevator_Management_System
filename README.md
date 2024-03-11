@@ -1,5 +1,7 @@
 # Elevator_Management_System
-System optymalizujący zarządzanie windami w budynku wraz wizualizacją działania, umożliwiający użytkownikowi interakcję z systemem.
+> Radosław Rolka
+
+System optymalizujący zarządzanie windami w budynku wraz z wizualizacją działania, umożliwiający użytkownikowi interakcję z systemem.
 
 <img src="images/example1.png" alt="Example" width="500"/>
 
@@ -23,11 +25,10 @@ System optymalizujący zarządzanie windami w budynku wraz wizualizacją działa
    1. [Algorytm przydzielania wezwań](#41-algorytm-przydzielania-wezwań)
    2. [Porządkowanie kolejności przystanków](#42-porządkowanie-kolejności-przystanków)
 
-   
 # 1. Wstęp
 
 ## 1.1 Cele projektu
-Projekt ma na celu stworzenie systemu optymalizującego zarządzanie windami w budynku, który ma za zadanie optymalizować czas oczekiwania na windę oraz czas przejazdu pomiędzy piętrami.
+Projekt ma na celu stworzenie systemu optymalizującego zarówno czas oczekiwania, jaki i przejazdu wind w budynku.
 Ponadto umożliwia użytkownikowi interakcję z systemem poprzez wizualizację działania.
 
 ## 1.2. Wymagania
@@ -58,7 +59,7 @@ gradle test
 # 2. Instrukcja
 
 ## 2.1 Menu
-Użytkownik ma możliwość wyboru zarówno liczby pięter w budynku, jak i liczby wind. 
+Użytkownik ma możliwość wyboru zarówno liczby pięter w budynku, jak i liczby wind.
 Ograniczenia naniesione na te pola to:
 - liczba pięter: od 2 do 20
 - liczba wind: od 1 do 16
@@ -74,7 +75,7 @@ Wizualizacja przedstawia działanie wind w budynku oraz pozwala na interakcję z
 
 <img src="images/simulation.png" alt="Visualization" width="500"/>
 
-### Przyciski 
+### Przyciski
 
 |                                                                                  Zewnętrzne                                                                                  |                                                          Wewnętrzne                                                           |
 |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------:|
@@ -97,7 +98,7 @@ Projekt składa się z kilku klas, które są odpowiedzialne za różne aspekty 
 Jednakże zostaną opisane tylko te, które są kluczowe dla zrozumienia działania systemu.
 
 ## 3.1 SimulationPresenter
-Klasa odpowiedzialna za prezentację symulacji, oraz obsługę interakcji z użytkownikiem. 
+Klasa odpowiedzialna za prezentację symulacji, oraz obsługę interakcji z użytkownikiem.
 Implementuje interfejs ```ChangeObserver```, który pozwala na reakcję na zmiany w symulacji, pochodzące z silnika symulacji.
 
 ## 3.2 Engine
@@ -106,14 +107,14 @@ Spełnia rolę mediatora pomiędzy symulacją, a prezentacją.
 Jest uruchamiany w osobnym wątku, co pozwala na jednoczesne uruchomienie wielu niezależnych symulacji.
 
 ## 3.3 Scheduler
-Klasa odpowiedzialna za przydzielanie wezwań do wind, przy pomocy metody struktury ```ElevatorList```.
+Klasa odpowiedzialna za przydzielanie wezwań do wind, przy pomocy metody ```getElevator()``` struktury ```ElevatorList```.
 
 ## 3.4 ElevatorList
 Struktura danych, która rozszerza klase ```ArrayList<Elevator>```, a jej głównym zadaniem jest dopasowywanie wind do wezwań.
 Algorytm przydzielania wezwań jest opisany w sekcji [Algorytm przydzielania wezwań](#41-algorytm-przydzielania-wezwań).
 
 ## 3.5 Elevator
-Klasa reprezentująca windę, która jest odpowiedzialna za jej ruch w zależności od jej stanu, 
+Klasa reprezentująca windę, która jest odpowiedzialna za jej ruch w zależności od jej stanu,
 oraz obsługę i porządkowanie wezwań, co jest opisane w sekcji [Porządkowanie kolejności przystanków](#42-porządkowanie-kolejności-przystanków).
 
 ## 3.6 Inne
@@ -124,7 +125,7 @@ oraz obsługę i porządkowanie wezwań, co jest opisane w sekcji [Porządkowani
 # 4. Opis
 
 ## 4.1 Algorytm przydzielania wezwań
-Algorytm przydziela wezwanie do windy na podstawie jej stanu oraz odległości od wezwań. 
+Algorytm przydziela wezwanie do windy na podstawie jej stanu oraz odległości od wezwań.
 Pierwszym krokiem jest sprawdzenie, czy winda jest aktywowana, co jest jest warunkiem koniecznym do przyjęcia wezwania.
 ```
 if (elevator.getStatus() != ElevatorStatus.RUNNING) {continue;}
@@ -149,7 +150,7 @@ if (elevator.getDirection() == direction.opposite()) {
    }
 }
 ```
-Ewentualnie, jeśli winda jest w stanie spoczynku, to zostanie wybrana, jeśli jest bliżej wezwania, niż potencjalna najlepsza winda.
+Ewentualnie, jeśli winda jest w stanie spoczynku, to zostanie wybrana, jeśli jest bliżej wezwania, niż potencjalnie najlepsza winda.
 ```
 if (elevator.isIdle() && isCloser(elevator, best, floor)) {
    best = Optional.of(elevator);
