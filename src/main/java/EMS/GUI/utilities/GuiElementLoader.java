@@ -1,6 +1,5 @@
 package EMS.GUI.utilities;
 
-import EMS.System.Elevator.Elevator;
 import EMS.System.utilities.ElevatorStatus;
 import EMS.System.utilities.MoveDirection;
 import javafx.scene.shape.Rectangle;
