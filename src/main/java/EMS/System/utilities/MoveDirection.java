@@ -14,5 +14,11 @@ public enum MoveDirection {
         };
     }
 
-
+    public MoveDirection opposite() {
+        return switch (this) {
+            case UP -> DOWN;
+            case DOWN -> UP;
+            default -> IDLE;
+        };
+    }
 }

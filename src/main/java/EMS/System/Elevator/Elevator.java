@@ -11,6 +11,7 @@ public class Elevator {
     private Integer currentFloor = 1;
     private MoveDirection direction = MoveDirection.IDLE;
     private ElevatorStatus status = ElevatorStatus.RUNNING;
+    private MoveDirection directionOfStops = MoveDirection.UP;
     private final Set<Integer> currentStops = new HashSet<>();
     private final Set<Integer> bufferStops = new HashSet<>();
 
@@ -34,8 +35,15 @@ public class Elevator {
     public void addStop(Integer floor, MoveDirection direction) {
         if (this.direction == MoveDirection.IDLE) {
             currentStops.add(floor);
+            directionOfStops = direction;
         } else {
-            (direction == this.direction ? currentStops : bufferStops).add(floor);
+            if (willChangeDirection() && this.direction.getValue() * (floor - currentStops.iterator().next()) > 0) {
+                bufferStops.add(currentStops.iterator().next());
+                currentStops.clear();
+                currentStops.add(floor);
+            } else {
+                (direction == this.direction ? currentStops : bufferStops).add(floor);
+            }
         }
     }
 
@@ -96,5 +104,9 @@ public class Elevator {
         direction = MoveDirection.IDLE;
         currentStops.clear();
         bufferStops.clear();
+    }
+
+    public boolean willChangeDirection() {
+        return directionOfStops != direction && currentStops.size() == 1;
     }
 }
