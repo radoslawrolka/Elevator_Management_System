@@ -55,4 +55,8 @@ public class Engine implements Runnable {
     private void moveElevators() {
         elevators.forEach(Elevator::move);
     }
+
+    public void toggle(Integer elevator) {
+        elevators.get(elevator).toggle();
+    }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.control.Label?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="EMS.GUI.presenters.SimulationPresenter" alignment="center" minWidth="1000" minHeight="650" spacing="10">
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="EMS.GUI.presenters.SimulationPresenter" alignment="center" prefWidth="1200" prefHeight="750" spacing="10">
     <GridPane fx:id="buttonGrid" alignment="center" styleClass="grid" gridLinesVisible="true"/>
     <GridPane fx:id="elevatorGrid" alignment="center" styleClass="grid" gridLinesVisible="true"/>
     <GridPane fx:id="innerGrid" alignment="center" styleClass="grid" gridLinesVisible="true"/>
@@ -21,6 +21,10 @@
         <HBox alignment="CENTER_LEFT" spacing="10">
             <Rectangle width="30" height="30"><fill><Color blue="1.0"/></fill></Rectangle>
             <Label text="Elevator is idle"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Rectangle width="30" height="30"><fill><Color/></fill></Rectangle>
+            <Label text="Elevator is out of service"/>
         </HBox>
     </VBox>
 </HBox>

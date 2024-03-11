@@ -53,8 +53,8 @@ public class SimulationPresenter implements ChangeObserver {
             setupElevators(elevators.size());
             for (int i = 0; i < elevators.size(); i++) {
                 Elevator elevator = elevators.get(i);
-                Rectangle rect = elementLoader.getElevatorRectangle(elevator.getDirection());
-                elevatorGrid.add(rect, i+1, floors-elevator.getCurrentFloor());
+                Rectangle rect = elementLoader.getElevatorRectangle(elevator.getDirection(), elevator.getStatus());
+                elevatorGrid.add(rect, i+1, floors-elevator.getCurrentFloor()+1);
             }
         });
     }
@@ -92,14 +92,24 @@ public class SimulationPresenter implements ChangeObserver {
     }
 
     private void setupElevators(int elevators) {
-        for (int i = 0; i < elevators+1; i++) {
+        elevatorGrid.getRowConstraints().add(new RowConstraints(height));
+        for (int i = 0; i < elevators; i++) {
             elevatorGrid.getColumnConstraints().add(new ColumnConstraints(width));
+            Label label = new Label(Integer.toString(i+1));
+            elevatorGrid.add(label, i+1, 0);
+            GridPane.setHalignment(label, HPos.CENTER);
+            Button button = new Button("X");
+            int finalI = i;
+            button.setOnAction(event -> engine.toggle(finalI));
+            elevatorGrid.add(button, i+1, floors+1);
+            GridPane.setHalignment(button, HPos.CENTER);
         }
+        elevatorGrid.getRowConstraints().add(new RowConstraints(height));
 
         for (int i = 0; i < floors; i++) {
             elevatorGrid.getRowConstraints().add(new RowConstraints(height));
             Label label = new Label(Integer.toString(floors-i));
-            elevatorGrid.add(label, 0, i);
+            elevatorGrid.add(label, 0, i+1);
             GridPane.setHalignment(label, HPos.CENTER);
         }
     }

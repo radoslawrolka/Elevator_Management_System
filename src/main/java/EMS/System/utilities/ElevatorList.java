@@ -13,13 +13,13 @@ public class ElevatorList extends ArrayList<Elevator>{
         Optional<Elevator> best = Optional.empty();
 
         for (Elevator elevator : this) {
-            if (elevator.isIdle() && isCloser(elevator, best, floor)) {
-                best = Optional.of(elevator);
-            }
-            else if (elevator.getDirection() == direction) {
+            if (elevator.getStatus() != ElevatorStatus.RUNNING) {continue;}
+            if (elevator.getDirection() == direction) {
                 if (isOnWay(elevator, direction, floor) && isCloser(elevator, best, floor)) {
                     best = Optional.of(elevator);
                 }
+            } else if (elevator.isIdle() && isCloser(elevator, best, floor)) {
+                best = Optional.of(elevator);
             }
         }
         return best;
@@ -30,6 +30,6 @@ public class ElevatorList extends ArrayList<Elevator>{
     }
 
     private boolean isOnWay(Elevator elevator, MoveDirection direction, int floor) {
-        return direction.getValue() * (floor - elevator.getCurrentFloor()) > 0;
+        return direction.getValue() * (floor - elevator.getCurrentFloor()) > 0 && (direction == elevator.getDirection() || elevator.isIdle());
     }
 }

@@ -1,5 +1,6 @@
 package EMS.System.Elevator;
 
+import EMS.System.utilities.ElevatorStatus;
 import EMS.System.utilities.MoveDirection;
 
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 public class Elevator {
     private Integer currentFloor = 1;
     private MoveDirection direction = MoveDirection.IDLE;
+    private ElevatorStatus status = ElevatorStatus.RUNNING;
     private final Set<Integer> currentStops = new HashSet<>();
     private final Set<Integer> bufferStops = new HashSet<>();
 
@@ -20,8 +22,13 @@ public class Elevator {
         return direction;
     }
 
+    public ElevatorStatus getStatus() {
+        return status;
+    }
+
     public void addStop(Integer floor) {
-        (direction.getValue()*(floor - currentFloor) >= 0 ? currentStops : bufferStops).add(floor);
+        if (this.status != ElevatorStatus.RUNNING) {return;}
+        (this.direction.getValue() * (floor - currentFloor) >= 0 ? currentStops : bufferStops).add(floor);
     }
 
     public void addStop(Integer floor, MoveDirection direction) {
@@ -60,7 +67,11 @@ public class Elevator {
         if (currentStops.isEmpty()) {
             direction = MoveDirection.IDLE;
         } else {
-            direction = currentStops.iterator().next() > currentFloor ? MoveDirection.UP : MoveDirection.DOWN;
+            if (currentFloor - currentStops.iterator().next() == 0) {
+                stop();
+            } else {
+                direction = currentStops.iterator().next() > currentFloor ? MoveDirection.UP : MoveDirection.DOWN;
+            }
         }
     }
 
@@ -71,10 +82,19 @@ public class Elevator {
             } else {
                 direction = currentStops.iterator().next() > currentFloor ? MoveDirection.UP : MoveDirection.DOWN;
             }
+        } else if (!bufferStops.isEmpty()) {
+            direction = bufferStops.iterator().next() > currentFloor ? MoveDirection.UP : MoveDirection.DOWN;
         }
     }
 
     public boolean isIdle() {
         return direction == MoveDirection.IDLE;
+    }
+
+    public void toggle() {
+        status = status.opposite();
+        direction = MoveDirection.IDLE;
+        currentStops.clear();
+        bufferStops.clear();
     }
 }
